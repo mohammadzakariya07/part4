@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smart Aadhaar</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="loadLanguage()">
+
+<!-- Language Bar -->
+<div class="lang-bar">
+  <select onchange="setLanguage(this.value)">
+    <option value="">Select Language</option>
+    <option value="en">English</option>
+    <option value="hi">हिन्दी</option>
+    <option value="bn">বাংলা</option>
+    <option value="mr">मराठी</option>
+    <option value="te">తెలుగు</option>
+    <option value="ta">தமிழ்</option>
+    <option value="ur">اردو</option>
+    <option value="pa">ਪੰਜਾਬੀ</option>
+  </select>
+</div>
+
+<header>
+  <h1 id="title"></h1>
+  <p id="subtitle"></p>
+</header>
+
+<div class="login-box">
+  <h2 id="login"></h2>
+  <input id="username" placeholder="">
+  <input id="password" type="password" placeholder="">
+  <button onclick="login()" id="button"></button>
+  <p id="error"></p>
+</div>
+
+<footer id="footer"></footer>
+
+<script src="languages.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
