@@ -11,6 +11,23 @@
         h1 {
             color: #003366;
         }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logout-btn {
+            background: #c62828;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .timer {
+            color: #555;
+            font-size: 14px;
+        }
         .card {
             background: white;
             padding: 15px;
@@ -21,9 +38,17 @@
         }
     </style>
 </head>
-<body>
 
-<h1>Smart Aadhaar Center Monitoring System</h1>
+<body onload="checkSession()">
+
+<div class="top-bar">
+    <h1>Smart Aadhaar Center Monitoring System</h1>
+    <div>
+        <span class="timer" id="timer"></span>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+</div>
+
 <p><b>Access Mode:</b> Remote Secure Login</p>
 
 <div class="card">
@@ -50,6 +75,49 @@
     <p>ESP Devices: <b>Online</b></p>
     <p>Last Data Sync: <b>Live</b></p>
 </div>
+
+<script>
+const SESSION_LIMIT = 30 * 60 * 1000; // 30 minutes
+
+function checkSession() {
+    let loggedIn = sessionStorage.getItem("loggedIn");
+    let loginTime = sessionStorage.getItem("loginTime");
+
+    if (!loggedIn || !loginTime) {
+        redirectLogin();
+        return;
+    }
+
+    startTimer();
+}
+
+function startTimer() {
+    setInterval(() => {
+        let now = Date.now();
+        let loginTime = sessionStorage.getItem("loginTime");
+        let remaining = SESSION_LIMIT - (now - loginTime);
+
+        if (remaining <= 0) {
+            alert("Session expired. Please login again.");
+            logout();
+        } else {
+            let minutes = Math.floor(remaining / 60000);
+            let seconds = Math.floor((remaining % 60000) / 1000);
+            document.getElementById("timer").innerText =
+              `Session expires in: ${minutes}m ${seconds}s`;
+        }
+    }, 1000);
+}
+
+function logout() {
+    sessionStorage.clear();
+    redirectLogin();
+}
+
+function redirectLogin() {
+    window.location.href = "./index.html";
+}
+</script>
 
 </body>
 </html>
